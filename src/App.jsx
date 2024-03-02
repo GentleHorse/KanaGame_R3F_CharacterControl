@@ -1,10 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 
 import Experience from "./Experience.jsx";
+import Header from "./header/Header.jsx";
 
 function App() {
   return (
     <>
+      <Header />
       <Canvas
         camera={{
           fov: 45,
