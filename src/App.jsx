@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 
 import Experience from "./Experience.jsx";
 import Header from "./components/header/Header.jsx";
+import { Physics } from "@react-three/rapier";
 
 function App() {
   return (
@@ -12,10 +14,15 @@ function App() {
           fov: 45,
           near: 0.1,
           far: 200,
-          position: [1, 2, 6],
+          position: [0, 6, 14],
         }}
       >
-        <Experience />
+        <color attach="background" args={["#B19693"]} />
+        <Suspense>
+          <Physics debug>
+            <Experience />
+          </Physics>
+        </Suspense>
       </Canvas>
     </>
   );
