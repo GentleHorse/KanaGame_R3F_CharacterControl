@@ -17,7 +17,8 @@ function App() {
           position: [0, 6, 14],
         }}
       >
-        <color attach="background" args={["#B19693"]} />
+        <color attach="background" args={["snow"]} />
+        <fog attach="fog" args={["snow", 20, 40]} />
         <Suspense>
           <Physics debug>
             <Experience />
