@@ -1,12 +1,26 @@
+import { useEffect } from "react";
 import {
   Cylinder,
   MeshReflectorMaterial,
   OrbitControls,
+  Text3D,
 } from "@react-three/drei";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import JapaneseTorii from "./components/japanese-torii/JapaneseTorii";
+import { kanas } from "./components/utils/constants.js";
+import { useGameStore } from "./components/store/store.js";
 
 export default function Experience() {
+
+  /**
+   * USE THE GAME HOOK
+   */
+  const startGame = useGameStore((state) => state.startGame);
+
+  useEffect(() => {
+    startGame();
+  }, []);
+
   return (
     <>
       <OrbitControls makeDefault />
@@ -41,6 +55,14 @@ export default function Experience() {
             <meshStandardMaterial color="snow" />
           </Cylinder>
         </RigidBody>
+
+        {/* KANA */}
+        <Text3D
+          font={"./fonts/DotGothic16_Regular_Hiragana_Katakana_Only.json"}
+        >
+          {kanas[0].character.hiragana}
+          <meshNormalMaterial />
+        </Text3D>
       </group>
     </>
   );

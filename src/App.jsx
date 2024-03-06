@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
 import Header from "./components/header/Header.jsx";
 import { Physics } from "@react-three/rapier";
+import { generateGameLevel } from "./components/store/store.js";
 
 function App() {
   return (

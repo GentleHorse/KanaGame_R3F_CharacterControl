@@ -402,4 +402,4 @@ export default function JapaneseTorii(props) {
   );
 }
 
-useGLTF.preload("/model.glb");
+useGLTF.preload("/models/japanese-torii/model.glb");
