@@ -9,6 +9,9 @@ import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import JapaneseTorii from "./components/japanese-torii/JapaneseTorii";
 import { kanas } from "./components/utils/constants.js";
 import { useGameStore } from "./components/store/store.js";
+import { KanaSpots } from "./components/kana-spots/KanaSpots.jsx";
+import Character from "./components/character/Character.jsx";
+import { CharacterController } from "./components/character/CharacterController.jsx";
 
 export default function Experience() {
 
@@ -49,20 +52,18 @@ export default function Experience() {
 
       <group position-y={-1}>
         {/* STAGE */}
-        <RigidBody colliders={false} type="fixed" position-y={-0.5}>
+        <RigidBody colliders={false} type="fixed" position-y={-0.5} friction={2}>
           <CylinderCollider args={[0.5, 5]} />
           <Cylinder scale={[5, 1, 5]} receiveShadow>
             <meshStandardMaterial color="snow" />
           </Cylinder>
         </RigidBody>
 
+        {/* CHARACTER */}
+        <CharacterController />
+
         {/* KANA */}
-        <Text3D
-          font={"./fonts/DotGothic16_Regular_Hiragana_Katakana_Only.json"}
-        >
-          {kanas[0].character.hiragana}
-          <meshNormalMaterial />
-        </Text3D>
+        <KanaSpots />
       </group>
     </>
   );
