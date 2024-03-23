@@ -5,6 +5,7 @@ import Experience from "./Experience.jsx";
 import Header from "./components/header/Header.jsx";
 import { Physics } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
+import { Menu } from "./components/menu/Menu.jsx";
 
 export const Controls = {
   forward: "forward",
@@ -27,7 +28,7 @@ function App() {
     <>
       <KeyboardControls map={map}>
 
-        <Header />
+        {/* <Header /> */}
         
         <Canvas
           camera={{
@@ -45,6 +46,9 @@ function App() {
             </Physics>
           </Suspense>
         </Canvas>
+
+        <Menu />
+
       </KeyboardControls>
     </>
   );

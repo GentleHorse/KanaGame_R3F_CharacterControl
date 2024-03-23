@@ -23,7 +23,7 @@ export const generateGameLevel = ({ nbStage }) => {
 
   for (let i = 0; i < nbStage; i++) {
     const stage = [];
-    const nbOptions = 3 + 1;
+    const nbOptions = 3 + i;
 
     // Randomly added "kana" objects from "kanas" object array
     for (let j = 0; j < nbOptions; j++) {

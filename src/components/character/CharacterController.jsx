@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
@@ -108,11 +109,6 @@ export const CharacterController = () => {
         }}
       >
         <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.2, 0]} />
-
-        <mesh scale={[1, 2.5, 1]} position-y={1.25}>
-          <boxGeometry />
-          <meshNormalMaterial wireframe />
-        </mesh>
 
         <group ref={character}>
           <Character />

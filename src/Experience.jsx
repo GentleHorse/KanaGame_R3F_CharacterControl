@@ -15,6 +15,7 @@ import { useGameStore } from "./store/store.js";
 import { KanaSpots } from "./components/kana-spots/KanaSpots.jsx";
 import { CharacterController } from "./components/character/CharacterController.jsx";
 import { AxesHelper } from "three";
+import { Perf } from "r3f-perf";
 
 export default function Experience() {
   /**
@@ -31,6 +32,8 @@ export default function Experience() {
       <OrbitControls makeDefault />
 
       <axesHelper args={[2]} />
+
+      <Perf position="top-left" />
 
       {/* LIGHTS */}
       <ambientLight intensity={1} />
