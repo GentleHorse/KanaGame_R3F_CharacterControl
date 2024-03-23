@@ -18,15 +18,6 @@ import { AxesHelper } from "three";
 import { Perf } from "r3f-perf";
 
 export default function Experience() {
-  /**
-   * SET UP THE INITIAL STAGE ENVIRONMENT
-   */
-  const startGame = useGameStore((state) => state.startGame);
-
-  useEffect(() => {
-    startGame();
-  }, []);
-
   return (
     <>
       <OrbitControls makeDefault />

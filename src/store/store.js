@@ -2,6 +2,15 @@ import { create } from "zustand";
 import { kanas } from "../utils/constants.js";
 
 /**
+ *  GAME STATES
+ */
+export const gameStates = {
+  MENU: "MENU",
+  GAME: "GAME",
+  GAME_OVER: "GAME_OVER",
+};
+
+/**
  *  LEVEL & STAGE GENERATION LOGIC
  *
  * @param {int} nbStage the number of stages
@@ -10,11 +19,11 @@ import { kanas } from "../utils/constants.js";
  * @param {object} kana an object containing name, character, etc
  * @param {int} nbOptions the number of "kana" objects
  *
- * @returns the array of stages named "level" 
+ * @returns the array of stages named "level"
  *          [
  *            [{ .... }, { .... }, { .... }, { .... }],   // stage array
  *            [{ .... }, { .... }, { .... }, { .... }],
- *            
+ *
  *            .....
  *          ]
  */
@@ -58,12 +67,19 @@ export const useGameStore = create((set) => ({
   currentStage: 0,
   currentKana: null,
   mode: "hiragana",
+  gameState: gameStates.MENU,
 
-  startGame: () => {
+  startGame: ({ mode }) => {
     const level = generateGameLevel({ nbStage: 5 });
     const currentKana = level[0].find((kana) => kana.correct);
 
-    set({ level: level, currentStage: 0, currentKana: currentKana });
+    set({
+      level: level,
+      currentStage: 0,
+      currentKana: currentKana,
+      gameState: gameStates.GAME,
+      mode: mode
+    });
   },
 
   nextStage: () => {

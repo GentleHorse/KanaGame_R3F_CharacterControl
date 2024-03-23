@@ -6,6 +6,7 @@ import Header from "./components/header/Header.jsx";
 import { Physics } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
 import { Menu } from "./components/menu/Menu.jsx";
+import { useGameStore } from "./store/store.js";
 
 export const Controls = {
   forward: "forward",
@@ -16,20 +17,34 @@ export const Controls = {
 };
 
 function App() {
-  const map = useMemo(() => [
-    { name: Controls.forward, keys: ["ArrowUp", "KeyW"] },
-    { name: Controls.backward, keys: ["ArrowDown", "KeyS"] },
-    { name: Controls.leftward, keys: ["ArrowLeft", "KeyA"] },
-    { name: Controls.rightward, keys: ["ArrowRight", "KeyD"] },
-    { name: Controls.jump, keys: ["Space"] },
-  ], []);
+  /**
+   * PARAMS FOR KEYBOARD CONTROL
+   */
+  const map = useMemo(
+    () => [
+      { name: Controls.forward, keys: ["ArrowUp", "KeyW"] },
+      { name: Controls.backward, keys: ["ArrowDown", "KeyS"] },
+      { name: Controls.leftward, keys: ["ArrowLeft", "KeyA"] },
+      { name: Controls.rightward, keys: ["ArrowRight", "KeyD"] },
+      { name: Controls.jump, keys: ["Space"] },
+    ],
+    []
+  );
+
+  /**
+   * FETCH THE GAME STATE
+   */
+  const { gameState } = useGameStore((state) => ({
+    gameState: state.gameState,
+  }));
+
+  console.log(`Game state: ${gameState}`);
 
   return (
     <>
       <KeyboardControls map={map}>
-
         {/* <Header /> */}
-        
+
         <Canvas
           camera={{
             fov: 45,
@@ -47,8 +62,7 @@ function App() {
           </Suspense>
         </Canvas>
 
-        <Menu />
-
+        {gameState === "MENU" && <Menu />}
       </KeyboardControls>
     </>
   );
