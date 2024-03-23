@@ -5,18 +5,20 @@ import {
   OrbitControls,
   Text3D,
 } from "@react-three/drei";
-import { CylinderCollider, RigidBody } from "@react-three/rapier";
+import {
+  CuboidCollider,
+  CylinderCollider,
+  RigidBody,
+} from "@react-three/rapier";
 import JapaneseTorii from "./components/japanese-torii/JapaneseTorii";
-import { kanas } from "./components/utils/constants.js";
-import { useGameStore } from "./components/store/store.js";
+import { useGameStore } from "./store/store.js";
 import { KanaSpots } from "./components/kana-spots/KanaSpots.jsx";
-import Character from "./components/character/Character.jsx";
 import { CharacterController } from "./components/character/CharacterController.jsx";
+import { AxesHelper } from "three";
 
 export default function Experience() {
-
   /**
-   * USE THE GAME HOOK
+   * SET UP THE INITIAL STAGE ENVIRONMENT
    */
   const startGame = useGameStore((state) => state.startGame);
 
@@ -28,6 +30,8 @@ export default function Experience() {
     <>
       <OrbitControls makeDefault />
 
+      <axesHelper args={[2]} />
+
       {/* LIGHTS */}
       <ambientLight intensity={1} />
       <directionalLight
@@ -38,8 +42,12 @@ export default function Experience() {
       />
 
       {/* BACKGROUND */}
-      <mesh position={[0, -1.5, 0]} rotation={[-Math.PI * 0.5, 0, 0]}>
-        <planeGeometry args={[50, 50]} />
+      <mesh
+        scale={[50, 50, 1]}
+        position={[0, -1.5, 0]}
+        rotation={[-Math.PI * 0.5, 0, 0]}
+      >
+        <planeGeometry />
         <MeshReflectorMaterial
           resolution={512}
           blur={[400, 400]}
@@ -52,11 +60,17 @@ export default function Experience() {
 
       <group position-y={-1}>
         {/* STAGE */}
-        <RigidBody colliders={false} type="fixed" position-y={-0.5} friction={2}>
+        <RigidBody
+          colliders={false}
+          type="fixed"
+          position-y={-0.5}
+          friction={1}
+        >
           <CylinderCollider args={[0.5, 5]} />
           <Cylinder scale={[5, 1, 5]} receiveShadow>
             <meshStandardMaterial color="snow" />
           </Cylinder>
+          <CuboidCollider args={[25, 0.5, 25]} position={[0, -0.5, 0]} />
         </RigidBody>
 
         {/* CHARACTER */}
