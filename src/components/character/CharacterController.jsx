@@ -96,6 +96,14 @@ export const CharacterController = () => {
     };
   }, []);
 
+  /**
+   * RESET CHARACTER POSITION
+   */
+  const resetPosition = () => {
+    body.current.setTranslation({ x: 0, y: 0, z: 0 });
+    body.current.setLinvel({ x: 0, y: 0, z: 0 });
+  };
+
   return (
     <group>
       <RigidBody
@@ -106,6 +114,11 @@ export const CharacterController = () => {
         enabledRotations={[false, false, false]}
         onCollisionEnter={() => {
           isOnFloor.current = true;
+        }}
+        onIntersectionEnter={({ other }) => {
+          if (other.rigidBodyObject.name === "void") {
+            resetPosition();
+          }
         }}
       >
         <CapsuleCollider args={[0.8, 0.4]} position={[0, 1.2, 0]} />

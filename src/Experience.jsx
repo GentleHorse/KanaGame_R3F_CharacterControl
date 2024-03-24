@@ -64,7 +64,11 @@ export default function Experience() {
           <Cylinder scale={[5, 1, 5]} receiveShadow>
             <meshStandardMaterial color="snow" />
           </Cylinder>
-          <CuboidCollider args={[25, 0.5, 25]} position={[0, -0.5, 0]} />
+        </RigidBody>
+
+        {/* OUTSIDE STAGE, DETECT "AREA OUT" */}
+        <RigidBody colliders={false} type="fixed" name="void">
+          <CuboidCollider args={[25, 0.5, 25]} position={[0, -2, 0]} sensor />
         </RigidBody>
 
         {/* CHARACTER */}

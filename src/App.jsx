@@ -34,11 +34,12 @@ function App() {
   /**
    * FETCH THE GAME STATE
    */
-  const { gameState } = useGameStore((state) => ({
+  const { gameState, mode } = useGameStore((state) => ({
     gameState: state.gameState,
+    mode: state.mode,
   }));
 
-  console.log(`Game state: ${gameState}`);
+  console.log(`Game state: ${gameState}, mode: ${mode}`);
 
   return (
     <>

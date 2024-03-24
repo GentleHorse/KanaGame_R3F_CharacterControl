@@ -3,10 +3,11 @@ import { useGameStore } from "../../store/store";
 import { Center, Cylinder, Text3D } from "@react-three/drei";
 
 export const KanaSpots = () => {
-  const { level, currentStage, currentKana } = useGameStore((state) => ({
+  const { level, currentStage, currentKana, mode } = useGameStore((state) => ({
     level: state.level, // Alias
     currentKana: state.currentKana, // Alias
     currentStage: state.currentStage, // Alias
+    mode: state.mode, // Alias
   }));
 
   if (!level) {
@@ -34,7 +35,9 @@ export const KanaSpots = () => {
             size={0.82}
             rotation-y={-(index / level[currentStage].length) * Math.PI * 2}
           >
-            {kana.character.hiragana}
+            {mode === "hiragana"
+              ? kana.character.hiragana
+              : kana.character.katakana}
             <meshNormalMaterial />
           </Text3D>
         </Center>

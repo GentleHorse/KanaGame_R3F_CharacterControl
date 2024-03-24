@@ -69,7 +69,7 @@ export const useGameStore = create((set) => ({
   mode: "hiragana",
   gameState: gameStates.MENU,
 
-  startGame: ({ mode }) => {
+  startGame: ({ mode: mode }) => {
     const level = generateGameLevel({ nbStage: 5 });
     const currentKana = level[0].find((kana) => kana.correct);
 
