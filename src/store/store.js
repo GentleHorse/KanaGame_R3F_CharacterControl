@@ -90,7 +90,7 @@ export const useGameStore = create(
     wrongAnswers: 0,
 
     startGame: ({ mode: mode }) => {
-      const level = generateGameLevel({ nbStage: 5 });
+      const level = generateGameLevel({ nbStage: 4 });
       const currentKana = level[0].find((kana) => kana.correct);
 
       // Audio

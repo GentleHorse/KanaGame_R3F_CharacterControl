@@ -24,6 +24,10 @@ export default function Experience() {
     currentKana: state.currentKana,
   }));
 
+  const { currentStage } = useGameStore((state) => ({
+    currentStage: state.currentStage,
+  }));
+
   return (
     <>
       {/* <OrbitControls makeDefault /> */}
@@ -68,7 +72,7 @@ export default function Experience() {
 
       <group position-y={-1}>
         {/* KICKER */}
-        <Kicker />
+        {currentStage >= 2 && <Kicker />}
 
         {/* STAGE */}
         <RigidBody
