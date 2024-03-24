@@ -5,23 +5,26 @@ import {
   OrbitControls,
   Text3D,
   Text,
+  Environment,
+  ContactShadows,
 } from "@react-three/drei";
 import {
   CuboidCollider,
   CylinderCollider,
   RigidBody,
 } from "@react-three/rapier";
-import JapaneseTorii from "./components/japanese-torii/JapaneseTorii";
 import { useGameStore } from "./store/store.js";
 import { KanaSpots } from "./components/kana-spots/KanaSpots.jsx";
 import { CharacterController } from "./components/character/CharacterController.jsx";
 import { AxesHelper } from "three";
 import { Perf } from "r3f-perf";
 import { Kicker } from "./components/kicker/Kicker.jsx";
+import Stage from "./components/stage/Stage.jsx";
 
 export default function Experience() {
-  const { currentKana } = useGameStore((state) => ({
+  const { currentKana, lastWrongKana } = useGameStore((state) => ({
     currentKana: state.currentKana,
+    lastWrongKana: state.lastWrongKana
   }));
 
   const { currentStage } = useGameStore((state) => ({
@@ -30,51 +33,90 @@ export default function Experience() {
 
   return (
     <>
-      {/* <OrbitControls makeDefault /> */}
+      <OrbitControls makeDefault />
 
       <axesHelper args={[2]} />
 
       <Perf position="top-left" />
 
       {/* LIGHTS */}
-      <ambientLight intensity={1} />
+      <Environment preset="sunset" />
       <directionalLight
         position={[5, 5, 5]}
-        intensity={0.8}
+        intensity={0.3}
         castShadow
         color={"#9e69da"}
       />
 
-      {/* BACKGROUND */}
-      <mesh
-        scale={[50, 50, 1]}
-        position={[0, -1.5, 0]}
-        rotation={[-Math.PI * 0.5, 0, 0]}
-      >
-        <planeGeometry />
-        <MeshReflectorMaterial
-          resolution={512}
-          blur={[400, 400]}
-          mixBlur={0.5}
-          mirror={[0.85]}
-          color="#81C7D4"
-        />
-      </mesh>
-      <JapaneseTorii scale={[2, 2, 2]} position={[0, 2.5, -10]} />
-
       {/* CURRENT CORRECT KANA */}
       {currentKana && (
-        <Text position={[0, -0.5, -10]} scale={[1, 1.5, 1]} fontSize={3}>
+        <Text
+          position={[0, -0.92, 0]}
+          fontSize={1.84}
+          rotation-x={-Math.PI / 2}
+          font="./fonts/PixelCowboy.ttf"
+        >
           {currentKana.name.toUpperCase()}
-          <meshBasicMaterial toneMapped={false} color="#227D51" />
+          <meshStandardMaterial toneMapped={true} color="snow" />
         </Text>
       )}
+
+      {/* WRONGLY ANSWERED KANA */}
+      {lastWrongKana && (
+        <Text
+          position={[0, -0.92, 1.8]}
+          fontSize={1}
+          rotation-x={-Math.PI / 2}
+          font="./fonts/PixelCowboy.ttf"
+        >
+          {lastWrongKana.name.toUpperCase()}
+          <meshStandardMaterial toneMapped={true} color="crimson" transparent={true} />
+        </Text>
+      )}
+
+
 
       <group position-y={-1}>
         {/* KICKER */}
         {currentStage >= 2 && <Kicker />}
 
+        {/* FLOOR */}
+        <RigidBody colliders={false} type="fixed" name="void">
+          <mesh
+            scale={[50, 50, 1]}
+            position={[0, -0.9, 0]}
+            rotation={[-Math.PI * 0.5, 0, 0]}
+          >
+            <planeGeometry />
+            <MeshReflectorMaterial
+              resolution={512}
+              blur={[400, 400]}
+              mixBlur={0.5}
+              mirror={[0.85]}
+              color="#81C7D4"
+              mixStrength={2}
+              depthScale={1}
+              minDepthThreshold={0.85}
+              metalness={0.5}
+              roughness={0.8}
+            />
+          </mesh>
+          <CuboidCollider args={[25, 0.5, 25]} position={[0, -2, 0]} sensor />
+        </RigidBody>
+
+        <ContactShadows
+          frames={1}
+          position={[0, -0.88, 0]}
+          scale={80}
+          opacity={0.42}
+          far={50}
+          blur={0.8}
+          color={"#aa9acd"}
+        />
+
         {/* STAGE */}
+        <Stage position-y={-0.92} />
+
         <RigidBody
           colliders={false}
           type="fixed"
@@ -82,14 +124,6 @@ export default function Experience() {
           friction={1}
         >
           <CylinderCollider args={[0.5, 5]} />
-          <Cylinder scale={[5, 1, 5]} receiveShadow>
-            <meshStandardMaterial color="snow" />
-          </Cylinder>
-        </RigidBody>
-
-        {/* OUTSIDE STAGE, DETECT "AREA OUT" */}
-        <RigidBody colliders={false} type="fixed" name="void">
-          <CuboidCollider args={[25, 0.5, 25]} position={[0, -2, 0]} sensor />
         </RigidBody>
 
         {/* CHARACTER */}

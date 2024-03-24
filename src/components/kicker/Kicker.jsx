@@ -21,22 +21,12 @@ export const Kicker = () => {
     const curRotation = quat(kicker.current.rotation());
     const incrementRotation = new THREE.Quaternion().setFromAxisAngle(
       new THREE.Vector3(0, 1, 0),
-      delta * 8
+      delta * 4
     );
 
     curRotation.multiply(incrementRotation);
     kicker.current.setNextKinematicRotation(curRotation);
   });
-
-  /**
-   * cf. CAUTION - IF STATEMENT
-   * 
-   * - NO 
-   * - 
-   */
-  // if (gameState !== gameStates.GAME || currentStage < 2) {
-  //   return null;
-  // }
 
   return (
     <RigidBody ref={kicker} type="kinematicPosition" position={[0, 0.1, 0]}>

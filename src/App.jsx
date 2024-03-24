@@ -7,6 +7,7 @@ import { Physics } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
 import { Menu } from "./components/menu/Menu.jsx";
 import { useGameStore } from "./store/store.js";
+import { Leva } from "leva";
 
 export const Controls = {
   forward: "forward",
@@ -45,6 +46,8 @@ function App() {
     <>
       <KeyboardControls map={map}>
         {/* <Header /> */}
+
+        <Leva hidden={true} />
 
         <Canvas
           camera={{

@@ -170,7 +170,7 @@ export const kanas = [
       combination: false,
     },
     {
-      name: "yi",
+      name: "i",
       character: {
         hiragana: "い",
         katakana: "イ",
