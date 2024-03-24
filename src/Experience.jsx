@@ -24,7 +24,7 @@ import Stage from "./components/stage/Stage.jsx";
 export default function Experience() {
   const { currentKana, lastWrongKana } = useGameStore((state) => ({
     currentKana: state.currentKana,
-    lastWrongKana: state.lastWrongKana
+    lastWrongKana: state.lastWrongKana,
   }));
 
   const { currentStage } = useGameStore((state) => ({
@@ -35,7 +35,7 @@ export default function Experience() {
     <>
       <OrbitControls makeDefault />
 
-      <axesHelper args={[2]} />
+      {/* <axesHelper args={[2]} /> */}
 
       <Perf position="top-left" />
 
@@ -70,11 +70,13 @@ export default function Experience() {
           font="./fonts/PixelCowboy.ttf"
         >
           {lastWrongKana.name.toUpperCase()}
-          <meshStandardMaterial toneMapped={true} color="crimson" transparent={true} />
+          <meshStandardMaterial
+            toneMapped={true}
+            color="crimson"
+            transparent={true}
+          />
         </Text>
       )}
-
-
 
       <group position-y={-1}>
         {/* KICKER */}
