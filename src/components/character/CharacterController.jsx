@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import Character from "./Character.jsx";
-import { useGameStore } from "../../store/store.js";
+import { useGameStore, playAudio } from "../../store/store.js";
 
 const JUMP_FORCE = 1;
 const JUMP_ACTIVATE_HIGHT = 3;
@@ -110,10 +110,28 @@ export const CharacterController = () => {
   };
 
   useEffect(
-    () =>
-      useGameStore.subscribe((state) => state.currentStage, resetPosition),
+    () => useGameStore.subscribe((state) => state.currentStage, resetPosition),
     []
   );
+
+  /**
+   * ANIMATE CAMERA
+   */
+  useFrame((state, delta) => {
+    // Get the character position
+    const characterWorldPosition = character.current.getWorldPosition(
+      new THREE.Vector3()
+    );
+
+    // Set the camera position
+    state.camera.position.x = characterWorldPosition.x;
+    state.camera.position.z = characterWorldPosition.z + 10;
+
+    // Set the camera target
+    const cameraTarget = new THREE.Vector3();
+    cameraTarget.copy(characterWorldPosition);
+    state.camera.lookAt(cameraTarget);
+  });
 
   return (
     <group>
@@ -129,6 +147,9 @@ export const CharacterController = () => {
         onIntersectionEnter={({ other }) => {
           if (other.rigidBodyObject.name === "void") {
             resetPosition();
+            playAudio("fail", () => {
+              playAudio("ganbatte");
+            });
           }
         }}
       >

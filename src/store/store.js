@@ -14,8 +14,13 @@ export const gameStates = {
 /**
  * PLAY AUDIO
  */
-export const playAudio = (path) => {
+export const playAudio = (path, callback) => {
   const audio = new Audio(`./sounds/${path}.mp3`);
+
+  if (callback) {
+    audio.addEventListener("ended", callback);
+  }
+
   audio.play();
 };
 
@@ -85,10 +90,15 @@ export const useGameStore = create(
     wrongAnswers: 0,
 
     startGame: ({ mode: mode }) => {
-      const level = generateGameLevel({ nbStage: 2 });
+      const level = generateGameLevel({ nbStage: 5 });
       const currentKana = level[0].find((kana) => kana.correct);
 
-      playAudio(`kanas/${currentKana.name}`);
+      // Audio
+      // 1. Play the "start" sound
+      // 2. After 1, play the "currentKana" sound
+      playAudio("start", () => {
+        playAudio(`kanas/${currentKana.name}`);
+      });
 
       set({
         level: level,
@@ -102,7 +112,10 @@ export const useGameStore = create(
 
     nextStage: () => {
       set((state) => {
+        // If the player clear the stage
         if (state.currentStage + 1 === state.level.length) {
+          playAudio("congratulations");
+
           return {
             currentStage: 0,
             currentKana: null,
@@ -116,7 +129,14 @@ export const useGameStore = create(
           (kana) => kana.correct
         );
 
-        playAudio(`kanas/${currentKana.name}`);
+        // Audio
+        // 0. Play SFX ("good")
+        // 1. Play the "That's correct!" sound
+        // 2. Play the "currentKana" sound
+        playAudio("good");
+        playAudio(`correct${currentStage % 3}`, () => {
+          playAudio(`kanas/${currentKana.name}`);
+        });
 
         return { currentStage: currentStage, currentKana: currentKana };
       });
@@ -132,7 +152,15 @@ export const useGameStore = create(
       if (currentKana.name === kana.name) {
         get().nextStage(); // Access to the "nextStage" functioin
       } else {
-        playAudio(`kanas/${kana.name}`);
+        // Audio
+        // 0. Play SFX ("wrong")
+        // 1. Play the "kana" sound the character touched
+        // 1. Play the "That's incorrect!" sound
+        playAudio("wrong");
+        playAudio(`kanas/${kana.name}`, () => {
+          playAudio("fail");
+        });
+
         set((state) => ({ wrongAnswers: state.wrongAnswers + 1 }));
       }
     },

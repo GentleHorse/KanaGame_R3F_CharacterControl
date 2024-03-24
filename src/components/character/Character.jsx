@@ -18,6 +18,7 @@ export default function Character(props) {
           geometry={nodes.characterMedium.geometry}
           material={materials["skin.001"]}
           skeleton={nodes.characterMedium.skeleton}
+          castShadow
         />
       </group>
     </group>
