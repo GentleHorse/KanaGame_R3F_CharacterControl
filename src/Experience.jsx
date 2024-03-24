@@ -17,6 +17,7 @@ import { KanaSpots } from "./components/kana-spots/KanaSpots.jsx";
 import { CharacterController } from "./components/character/CharacterController.jsx";
 import { AxesHelper } from "three";
 import { Perf } from "r3f-perf";
+import { Kicker } from "./components/kicker/Kicker.jsx";
 
 export default function Experience() {
   const { currentKana } = useGameStore((state) => ({
@@ -66,6 +67,9 @@ export default function Experience() {
       )}
 
       <group position-y={-1}>
+        {/* KICKER */}
+        <Kicker />
+
         {/* STAGE */}
         <RigidBody
           colliders={false}
