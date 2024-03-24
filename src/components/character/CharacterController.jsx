@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import Character from "./Character.jsx";
+import { useGameStore } from "../../store/store.js";
 
 const JUMP_FORCE = 1;
 const JUMP_ACTIVATE_HIGHT = 3;
@@ -98,11 +99,21 @@ export const CharacterController = () => {
 
   /**
    * RESET CHARACTER POSITION
+   *
+   * The position gets reset;
+   * - when the character falls outside the stage
+   * - when the character cleared the stage
    */
   const resetPosition = () => {
     body.current.setTranslation({ x: 0, y: 0, z: 0 });
     body.current.setLinvel({ x: 0, y: 0, z: 0 });
   };
+
+  useEffect(
+    () =>
+      useGameStore.subscribe((state) => state.currentStage, resetPosition),
+    []
+  );
 
   return (
     <group>

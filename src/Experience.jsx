@@ -4,6 +4,7 @@ import {
   MeshReflectorMaterial,
   OrbitControls,
   Text3D,
+  Text,
 } from "@react-three/drei";
 import {
   CuboidCollider,
@@ -18,6 +19,10 @@ import { AxesHelper } from "three";
 import { Perf } from "r3f-perf";
 
 export default function Experience() {
+  const { currentKana } = useGameStore((state) => ({
+    currentKana: state.currentKana,
+  }));
+
   return (
     <>
       <OrbitControls makeDefault />
@@ -51,6 +56,14 @@ export default function Experience() {
         />
       </mesh>
       <JapaneseTorii scale={[2, 2, 2]} position={[0, 2.5, -10]} />
+
+      {/* CURRENT CORRECT KANA */}
+      {currentKana && (
+        <Text position={[0, -0.5, -10]} scale={[1, 1.5, 1]} fontSize={3}>
+          {currentKana.name.toUpperCase()}
+          <meshBasicMaterial toneMapped={false} color="#227D51" />
+        </Text>
+      )}
 
       <group position-y={-1}>
         {/* STAGE */}

@@ -3,12 +3,14 @@ import { useGameStore } from "../../store/store";
 import { Center, Cylinder, Text3D } from "@react-three/drei";
 
 export const KanaSpots = () => {
-  const { level, currentStage, currentKana, mode } = useGameStore((state) => ({
-    level: state.level, // Alias
-    currentKana: state.currentKana, // Alias
-    currentStage: state.currentStage, // Alias
-    mode: state.mode, // Alias
-  }));
+  const { level, currentStage, kanaTouched, mode } = useGameStore(
+    (state) => ({
+      level: state.level, // Alias
+      kanaTouched: state.kanaTouched, // Alias
+      currentStage: state.currentStage, // Alias
+      mode: state.mode, // Alias
+    })
+  );
 
   if (!level) {
     return null;
@@ -16,12 +18,18 @@ export const KanaSpots = () => {
 
   return level[currentStage].map((kana, index) => (
     <group
-      key={kana.name}
+      key={`${currentStage}-${kana.name}`}
       rotation-y={(index / level[currentStage].length) * Math.PI * 2}
     >
       <group position-x={3.5} position-z={-3.5}>
         {/* KANA STAGE BLOCK */}
-        <RigidBody colliders={false} type="fixed">
+        <RigidBody
+          colliders={false}
+          type="fixed"
+          onCollisionEnter={() => {
+            kanaTouched(kana);
+          }}
+        >
           <CylinderCollider args={[1 * 0.5, 1]} />
           <Cylinder args={[1, 1, 1]}>
             <meshStandardMaterial color="snow" />

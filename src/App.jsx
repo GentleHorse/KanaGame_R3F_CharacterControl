@@ -63,7 +63,7 @@ function App() {
           </Suspense>
         </Canvas>
 
-        {gameState === "MENU" && <Menu />}
+        <Menu />
       </KeyboardControls>
     </>
   );
