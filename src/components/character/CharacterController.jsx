@@ -10,6 +10,7 @@ const JUMP_FORCE = 1;
 const JUMP_ACTIVATE_HIGHT = 3;
 const MOVEMENT_SPEED = 3;
 const MAX_VEL = 3;
+const RUN_VEL = 1.5;
 
 export const CharacterController = () => {
   /**
@@ -17,6 +18,14 @@ export const CharacterController = () => {
    */
   const body = useRef(); // RigidBody
   const character = useRef(); // Character mesh
+
+  /**
+   * CHARACTER STATE
+   */
+  const { characterState, setCharacterState } = useGameStore((state) => ({
+    characterState: state.characterState,
+    setCharacterState: state.setCharacterState,
+  }));
 
   /**
    * SET UP KEYBOARD CONTROLS
@@ -28,13 +37,15 @@ export const CharacterController = () => {
    */
   useFrame((state, delta) => {
     // Get input key states
-    const { forward, backward, leftward, rightward } = getKeys();
+    const { forward, backward, leftward, rightward, jump } = getKeys();
 
     // One vector for handling all applied forces
     const impluse = { x: 0, y: 0, z: 0 };
 
     // Access the character linear velocity
     const linvel = body.current.linvel();
+
+    console.log(linvel);
 
     // Control the character mesh rotation
     let changeRotation = false;
@@ -65,6 +76,20 @@ export const CharacterController = () => {
 
     // Apply forces to the rigid body
     body.current.applyImpulse(impluse, true);
+
+    // For the character animations
+    if (Math.abs(linvel.x) > RUN_VEL || Math.abs(linvel.z) > RUN_VEL) {
+      if (characterState === "Idle" || characterState !== "JumpAnimation") {
+        setCharacterState("RunAnimation");
+      }
+    } else if (
+      (Math.abs(linvel.x) === 0 || Math.abs(linvel.z) === 0) &&
+      Math.abs(linvel.y) === 0
+    ) {
+      if (characterState !== "Idle") {
+        setCharacterState("Idle");
+      }
+    }
   });
 
   /**
@@ -81,6 +106,9 @@ export const CharacterController = () => {
 
     if (hit.toi < JUMP_ACTIVATE_HIGHT) {
       body.current.applyImpulse({ x: 0, y: JUMP_FORCE, z: 0 }, true);
+      if (characterState !== "JumpAnimation") {
+        setCharacterState("JumpAnimation");
+      }
     }
   };
 

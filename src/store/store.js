@@ -81,7 +81,9 @@ export const generateGameLevel = ({ nbStage }) => {
  */
 export const useGameStore = create(
   subscribeWithSelector((set, get) => ({
-    // These are states managed by zustand
+    /**
+     * STATES - GAME LOGIC
+     */
     level: null,
     currentStage: 0,
     currentKana: null,
@@ -90,6 +92,11 @@ export const useGameStore = create(
     gameState: gameStates.MENU,
     wrongAnswers: 0,
 
+    /**
+     * FUNCTION - START GAME
+     *
+     * @param {*Object} mode "hiragana" or "katakana"
+     */
     startGame: ({ mode: mode }) => {
       const level = generateGameLevel({ nbStage: 4 });
       const currentKana = level[0].find((kana) => kana.correct);
@@ -111,6 +118,9 @@ export const useGameStore = create(
       });
     },
 
+    /**
+     * FUNCTION - GO TO THE NEXT STAGE
+     */
     nextStage: () => {
       set((state) => {
         // If the player clear the stage
@@ -148,10 +158,18 @@ export const useGameStore = create(
       });
     },
 
+    /**
+     * FUNCTION - GO TO MENU SCREEN
+     */
     goToMenu: () => {
       set({ gameState: gameStates.MENU });
     },
 
+    /**
+     * FUNCTION - WHEN KANA IS TOUCHED BY THE CHARACTER (KanaSpots.jsx)
+     *
+     * @param {*Object} kana kana object which the character touched
+     */
     kanaTouched: (kana) => {
       const currentKana = get().currentKana; // Access to the "currentKana" state
 
@@ -172,6 +190,14 @@ export const useGameStore = create(
           lastWrongKana: kana,
         }));
       }
+    },
+
+    /**
+     * CHARACTER ANIMATION CONTROLLER
+     */
+    characterState: "Idle",
+    setCharacterState: (characterState) => {
+      set({ characterState: characterState });
     },
   }))
 );

@@ -6,7 +6,6 @@ import Header from "./components/header/Header.jsx";
 import { Physics } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
 import { Menu } from "./components/menu/Menu.jsx";
-import { useGameStore } from "./store/store.js";
 import { Leva } from "leva";
 
 export const Controls = {
@@ -31,16 +30,6 @@ function App() {
     ],
     []
   );
-
-  /**
-   * FETCH THE GAME STATE
-   */
-  const { gameState, mode } = useGameStore((state) => ({
-    gameState: state.gameState,
-    mode: state.mode,
-  }));
-
-  console.log(`Game state: ${gameState}, mode: ${mode}`);
 
   return (
     <>

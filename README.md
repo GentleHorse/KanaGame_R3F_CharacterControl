@@ -514,6 +514,47 @@ Don't forget to check **"In Place"**.
 ### 5-8. Export the model as the format of gltf
 ![export animated gltf character](/public/images/screenshots/blender-export-animated-character.png)<br>
 
+### 5-9. Switch the model with animated one
+Run gltfjsx again to generate the code, and switch the model with the animation one. <br>
+
+```
+npx gltfjsx public/models/female-cyborg/model.gltf
+```
+
+### 5-10. Create a state and set function for the character (`store.js`)
+```
+export const useGameStore = create(
+  subscribeWithSelector((set, get) => ({
+
+    ....
+
+    characterState: "Idle",
+    setCharacterState: (characterState) => {
+      set({ characterState: characterState });
+    },
+  }))
+);
+```
+
+### 5-11. Set the character animation trigger logic (`CharacterController.jsx`)
+```
+useFrame((state, delta) => {
+
+    ....
+
+    if (Math.abs(linvel.x) > RUN_VEL || Math.abs(linvel.z) > RUN_VEL) {
+      if (characterState !== "Run") {
+        setCharacterState("Run");
+      } else {
+        if (characterState !== "Idle") {
+          setCharacterState("Idle");
+        }
+      }
+    }
+    
+  });
+```
+
 
 
 
