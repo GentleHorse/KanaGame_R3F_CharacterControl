@@ -101,7 +101,7 @@ useGLTF.preload("./models/female-cyborg/model.gltf");
 An alternative way to create the model component from the model is using [online gltf conveter](https://gltf.pmnd.rs/) offered by pmndrs. Just drop the gltf file and it automatically generates the jsx code for you.
 
 ### 2-2. Import `KeyboardControls` and set up
-In order to make the character move with the keyboard, use `KeyboardControls` from `@react-three/drei`. It's recommended to implement it outside `<Canvas>` so that non-three.js components can access keyboard inputs. <br><br>
+In order to make the character move with the keyboard, use `KeyboardControls` from `@react-three/drei`. It's recommended to implement it outside `<Canvas>` so that non-three.js components can access keyboard inputs.
 
 - [KeyboardControls](https://github.com/pmndrs/drei?tab=readme-ov-file#keyboardcontrols) <br>
 
@@ -470,6 +470,55 @@ useFrame((state, delta) => {
 ```
 
 ## 5. Animate the character
+
+### 5-0. Steps
+- Prepare the model as the format of **"fbx"**
+- Upload to [Mixamo](https://www.mixamo.com/#/)
+- Find an animation and download it
+- Attach the imported animation to the model in blender
+- Export as **"gltf"** file
+
+### 5-1. Import the gltf model into blender and exported as the fbx file
+![import to blender](/public/images/screenshots/import-gltf-model-to-blender.png)<br>
+![export as fbx](/public/images/screenshots/export-gltf-as-fbx.png)<br>
+
+### 5-2. Upload the fbx model to mixamo
+![upload fbx to mixamo 01](/public/images/screenshots/upload-fbx-to-mixamo-01.png)<br>
+![upload fbx to mixamo 02](/public/images/screenshots/upload-fbx-to-mixamo-02.png)<br>
+![upload fbx to mixamo 03](/public/images/screenshots/upload-fbx-to-mixamo-03.png)<br>
+
+### 5-3. Select an animation and download it
+![upload fbx to mixamo 04](/public/images/screenshots/upload-fbx-to-mixamo-04.png)<br>
+![upload fbx to mixamo 05](/public/images/screenshots/upload-fbx-to-mixamo-05.png)<br><br>
+
+Don't forget to check **"In Place"**.
+
+### 5-4. Import the animation (fbx) to blender
+![import fbx animation](/public/images/screenshots/import-fbx-animation-to-blender.png)<br>
+
+### 5-5. Change "Editor Type" to "Dope Sheet", open "Action Editor" and rename the animation
+![dope sheet action editor](/public/images/screenshots/blender-dope-sheet-action-editor.png)<br>
+
+### 5-6. Rename the original model, pose mode, open animation in action editor, hit "Push Down" 
+![rename the original model](/public/images/screenshots/blender-rename-original-character.png)<br>
+![open pose mode](/public/images/screenshots/blender-open-pose-mode.png)<br>
+![action editor select animation](/public/images/screenshots/blender-action-editor-select-run.png)<br>
+![action editor hit push down](/public/images/screenshots/blender-action-editor-hit-push-down.png)<br>
+
+### 5-7. Change "Editor Type" to "Nonlinear Animation", rename, delete the animation model from Mixamo
+![nonlinear animation](/public/images/screenshots/blender-nonlinear-animation.png)<br>
+![rename nla track 1](/public/images/screenshots/blender-rename-nla-track-1.png)<br>
+![rename nla track 2](/public/images/screenshots/blender-rename-nla-track-2.png)<br>
+![delete imported animation model](/public/images/screenshots/blender-delete-imported-fbx-animation-model.png)<br>
+
+### 5-8. Export the model as the format of gltf
+![export animated gltf character](/public/images/screenshots/blender-export-animated-character.png)<br>
+
+
+
+
+
+
 
 
 
