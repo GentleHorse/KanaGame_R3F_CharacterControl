@@ -57,13 +57,15 @@ const config = useControls({
 ![pmndrs market](/public/images/screenshots/pmndrs-market-characters.png)<br>
 You can find free 3D models at [pmndrs market](https://market.pmnd.rs/). Once you find one, click "Download Model" to download the model. The file format is automatically set to `gltf`, which is convenient for the next step.
 
+- [pmndrs market](https://market.pmnd.rs/)
+
 ### 2-1. Run "gltfjsx" to create the `Character` component
 You can automatically convert the downloaded gltf model to the React component with [gltfjsx](https://github.com/pmndrs/gltfjsx). Run the following command. (Assume that the model is located inside `models` > `female-cyborg` folder.)<br>
 
 ```
 npx gltfjsx public/models/female-cyborg/model.gltf
 ```
-<br><br>
+<br>
 
 And then copy all the code inside the auto generated `Model.jsx` file, create the `Character.jsx` component and paste the code inside of it. Also the link to the gltf model should be fixed properly. <br>
 
@@ -94,9 +96,14 @@ export default function Character(props) {
 useGLTF.preload("./models/female-cyborg/model.gltf");
 ```
 
+#### cf. An alternative to create the `Character` component
+![online gltf conveter](/public/images/screenshots/online-gltf-converter.png)<br>
+An alternative way to create the model component from the model is using [online gltf conveter](https://gltf.pmnd.rs/) offered by pmndrs. Just drop the gltf file and it automatically generates the jsx code for you.
+
 ### 2-2. Import `KeyboardControls` and set up
 In order to make the character move with the keyboard, use `KeyboardControls` from `@react-three/drei`. It's recommended to implement it outside `<Canvas>` so that non-three.js components can access keyboard inputs. <br><br>
 
+- [KeyboardControls](https://github.com/pmndrs/drei?tab=readme-ov-file#keyboardcontrols) <br>
 
 **App.js**
 ```
@@ -205,6 +212,7 @@ useFrame((state, delta) => {
 ```
 
 ### 2-7. Use `CapsuleCollider` instead of default collider
+![character CapsuleCollider](/public/images/screenshots/character-capsule-collider.png)<br>
 For better and optimized physicall simulations, implement `CapsuleCollider`. <br>
 
 ```
@@ -214,6 +222,7 @@ For better and optimized physicall simulations, implement `CapsuleCollider`. <br
 </RigidBody>
 ```
 ### 2-8. Prevent the character to fall on the ground
+![character fall on the ground](/public/images/screenshots/character-fall-on-the-ground.png)<br>
 When the force is applied to the character, it will fall on the ground. To prevent it, tweak the `enabledRotations` attribute of `RigidBody`. <br>
 
 ```
@@ -264,6 +273,7 @@ useFrame((state, delta) => {
 ```
 
 ### 2-10. Face the character towards movement directions
+![character face directions](/public/images/screenshots/character-face-directions.png)<br>
 It looks more natural if the character face the direction in which it moves. It can be done through accessing the character `mesh` and tweaking its rotation (since it doesn't have to be related to the physic simulation in this game). <br>
 
 ```
@@ -325,6 +335,7 @@ useFrame((state, delta) => {
 ```
 
 ### 2-11. Make the character jump
+![character jump](/public/images/screenshots/character-jump.png)<br>
 Jump logic should be triggered based on the keyboard input **"state changes"**, not 
 **"state"** (otherwise the jump forces keep applied and the character fly away). In order to listen "state changes", you need to **"subscribe"** the keyboard input. <br>
 
@@ -379,6 +390,7 @@ const { rapier, world } = useRapier();
 ```
 
 ## 3. Reset the character position when it falls outside the stage
+![character fall outside the stage](/public/images/screenshots/character-fall-outside-the-stage.png)
 
 ### 3-0. Objectives
 - Add the `sensor` attribute to the specific `Collider`
@@ -433,6 +445,7 @@ const resetPosition = () => {
 ```
 
 ## 4. Let the camera follow the character
+![camera follow character](/public/images/screenshots/camera-follow-character.png)<br>
 To let the camera follow the character movements, access its position through `getWorldPosition` of the character `mesh` (in this case, it's done with its `mesh` ref, `character`) and synchronize the both movements with adjusting the camera position & target (where the camera looks at). <br>
 
 - **Camera position**: synchronize xz-axis, but y-axis is fixed
