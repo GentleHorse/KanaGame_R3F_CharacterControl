@@ -6,9 +6,9 @@ import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import Character from "./Character.jsx";
 import { useGameStore, playAudio } from "../../store/store.js";
 
-const JUMP_FORCE = 1;
+const JUMP_FORCE = 0.8;
 const JUMP_ACTIVATE_HIGHT = 3;
-const MOVEMENT_SPEED = 3;
+const MOVEMENT_SPEED = 2;
 const MAX_VEL = 3;
 const RUN_VEL = 1.5;
 
@@ -167,7 +167,7 @@ export const CharacterController = () => {
         ref={body}
         colliders={false}
         scale={[0.5, 0.5, 0.5]}
-        linearDamping={0.5}
+        linearDamping={0.9}
         angularDamping={0.5}
         enabledRotations={[false, false, false]}
         onIntersectionEnter={({ other }) => {

@@ -49,7 +49,7 @@ function App() {
           <color attach="background" args={["snow"]} />
           <fog attach="fog" args={["snow", 20, 40]} />
           <Suspense>
-            <Physics debug>
+            <Physics debug={false}>
               <Experience />
             </Physics>
           </Suspense>

@@ -22,6 +22,7 @@ export default function Character(props) {
 
     return () => {
       actions[characterState].fadeOut(0.1);
+      actions[characterState].stop();
     }
 
   }, [characterState])

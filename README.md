@@ -540,19 +540,53 @@ export const useGameStore = create(
 ```
 useFrame((state, delta) => {
 
-    ....
+  ....
 
-    if (Math.abs(linvel.x) > RUN_VEL || Math.abs(linvel.z) > RUN_VEL) {
-      if (characterState !== "Run") {
-        setCharacterState("Run");
-      } else {
-        if (characterState !== "Idle") {
-          setCharacterState("Idle");
-        }
-      }
+  if (Math.abs(linvel.x) > RUN_VEL || Math.abs(linvel.z) > RUN_VEL) {
+    if (characterState === "Idle" || characterState !== "JumpAnimation") {
+      setCharacterState("RunAnimation");
     }
-    
-  });
+  } else if (
+    (Math.abs(linvel.x) === 0 || Math.abs(linvel.z) === 0) &&
+    Math.abs(linvel.y) === 0
+  ) {
+    if (characterState !== "Idle") {
+      setCharacterState("Idle");
+    }
+  }
+
+});
+
+....
+
+const jump = () => {
+  
+  ....
+
+  if (hit.toi < JUMP_ACTIVATE_HIGHT) {
+
+    body.current.applyImpulse({ x: 0, y: JUMP_FORCE, z: 0 }, true);
+
+    if (characterState !== "JumpAnimation") {
+      setCharacterState("JumpAnimation");
+    }
+
+  }
+};
+```
+
+### 5-12. Set character animation play logic (`Character.jsx`)
+```
+const characterState = useGameStore((state) => state.characterState);
+
+useEffect(() => {
+  actions[characterState].reset().fadeIn(0.01).play();
+
+  return () => {
+    actions[characterState].fadeOut(0.1);
+  }
+
+}, [characterState])
 ```
 
 
