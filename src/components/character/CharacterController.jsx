@@ -17,7 +17,6 @@ export const CharacterController = () => {
    */
   const body = useRef(); // RigidBody
   const character = useRef(); // Character mesh
-  const isOnFloor = useRef(true);
 
   /**
    * SET UP KEYBOARD CONTROLS
@@ -107,6 +106,7 @@ export const CharacterController = () => {
   const resetPosition = () => {
     body.current.setTranslation({ x: 0, y: 0, z: 0 });
     body.current.setLinvel({ x: 0, y: 0, z: 0 });
+    body.current.setAngvel({ x: 0, y: 0, z: 0 });
   };
 
   useEffect(
@@ -140,10 +140,8 @@ export const CharacterController = () => {
         colliders={false}
         scale={[0.5, 0.5, 0.5]}
         linearDamping={0.5}
+        angularDamping={0.5}
         enabledRotations={[false, false, false]}
-        onCollisionEnter={() => {
-          isOnFloor.current = true;
-        }}
         onIntersectionEnter={({ other }) => {
           if (other.rigidBodyObject.name === "void") {
             resetPosition();
